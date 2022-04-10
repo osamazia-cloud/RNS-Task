@@ -1,0 +1,70 @@
+1. Setting Up The Master
+
+sudo apt-get update
+sudo apt-get install mysql-server mysql-client -y
+sudo mysql_secure_installation
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+Next, in the same file, find the line containing bind-address = 127.0.0.1 and replace that IP address with the IP address of your master replication server. So, the line will look like:
+bind-address = 12.34.56.111
+
+Next, find the following lines in the file:
+
+server-id = 1
+log_bin = /var/log/mysql/mysql-bin.log
+
+You will see that the above lines have been commented, just uncomment these lines and exit the edit interface by clicking CTRL + X. Save the changes and restart the MySQL service for the changes to take effect.
+Restart MySQL service using the following command:
+
+sudo service mysql restart
+
+
+2. Create A New User For Slave
+
+mysql -uroot -p;
+
+mysql> CREATE USER ‘slave’@’12.34.56.789‘ IDENTIFIED BY ‘SLAVE_PASSWORD‘;
+mysql> GRANT REPLICATION SLAVE ON . TO ‘slave’@’12.34.56.222 ‘;
+mysql> FLUSH PRIVILEGES;
+mysql> FLUSH TABLES WITH READ LOCK;
+
+
+3. Move Data From Master To Slave
+
+mysqldump -u root -p –all-databases –master-data > data.sql
+
+To copy the dump file to the slave, use the following command:
+
+scp data.sql root@12.34.56.222
+
+Unlock the tables using the following command:
+
+mysql> UNLOCK TABLES;
+
+
+4. Configure Slave Server
+
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+sudo service mysql restart
+
+
+5. Import Data Dump
+
+mysql -uroot -p < data.sql
+
+mysql -uroot -p;
+mysql> STOP SLAVE;
+
+
+6. Start Slave Server
+
+START SLAVE;
+
+
+7. Test MySQL Master Slave Replication
+
+CREATE DATABASE sampledb;
+
+show databases;
+

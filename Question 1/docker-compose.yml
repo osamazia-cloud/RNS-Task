@@ -1,0 +1,8 @@
+version: "3.3"
+services:
+    docker_node:
+        image: docker_node_poc
+        build:  
+            dockerfile: Dockerfile
+        ports:
+            - "5000:5000"

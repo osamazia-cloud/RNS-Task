@@ -1,0 +1,22 @@
+{
+  "name": "docker_node",
+  "version": "1.0.0",
+  "description": "A simple Node JS App that is dockerize ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Alreadywinner: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@github.com/Alreadywinner/docker_node.git"
+  },
+  "author": "Osama Zia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alreadywinner/docker_node/issues"
+  },
+  "homepage": "https://github.com/Alreadywinner/docker_node#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
